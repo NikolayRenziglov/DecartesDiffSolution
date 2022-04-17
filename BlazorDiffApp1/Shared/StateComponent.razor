@@ -1,0 +1,24 @@
+﻿@using DecartesClassLibrary.Classes
+
+<CascadingValue Value="@State">
+	@ChildContent
+</CascadingValue>
+
+@code {
+	/// <summary>
+	/// Blazor control which just wrapping up other controls to 
+	/// make them work statefull. The state spans any Blazor circuits which is really persistant  
+	/// </summary>
+	[Parameter]
+	public RenderFragment ChildContent { get; set; }
+	public SessionState? State;
+
+	protected override async Task OnInitializedAsync()
+	{
+		State = new SessionState();
+		//Set initial value just not to leave it blank
+		State.BinaryString1 = State.BinaryString2 ="38,67,131,231,8,91";
+		await base.OnInitializedAsync();
+	}
+
+}

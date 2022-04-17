@@ -1,0 +1,12 @@
+D:\Development\Decartes\DecartesClassLibrary\bin\Debug\net6.0\DecartesClassLibrary.deps.json
+D:\Development\Decartes\DecartesClassLibrary\bin\Debug\net6.0\DecartesClassLibrary.dll
+D:\Development\Decartes\DecartesClassLibrary\bin\Debug\net6.0\DecartesClassLibrary.pdb
+D:\Development\Decartes\DecartesClassLibrary\obj\Debug\net6.0\DecartesClassLibrary.csproj.AssemblyReference.cache
+D:\Development\Decartes\DecartesClassLibrary\obj\Debug\net6.0\DecartesClassLibrary.GeneratedMSBuildEditorConfig.editorconfig
+D:\Development\Decartes\DecartesClassLibrary\obj\Debug\net6.0\DecartesClassLibrary.AssemblyInfoInputs.cache
+D:\Development\Decartes\DecartesClassLibrary\obj\Debug\net6.0\DecartesClassLibrary.AssemblyInfo.cs
+D:\Development\Decartes\DecartesClassLibrary\obj\Debug\net6.0\DecartesClassLibrary.csproj.CoreCompileInputs.cache
+D:\Development\Decartes\DecartesClassLibrary\obj\Debug\net6.0\DecartesClassLibrary.dll
+D:\Development\Decartes\DecartesClassLibrary\obj\Debug\net6.0\refint\DecartesClassLibrary.dll
+D:\Development\Decartes\DecartesClassLibrary\obj\Debug\net6.0\DecartesClassLibrary.pdb
+D:\Development\Decartes\DecartesClassLibrary\obj\Debug\net6.0\ref\DecartesClassLibrary.dll

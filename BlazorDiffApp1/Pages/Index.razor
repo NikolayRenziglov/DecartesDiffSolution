@@ -1,0 +1,26 @@
+﻿@page "/"
+
+<PageTitle>Index</PageTitle>
+
+<h1>Binary difference check</h1>
+<div class="active">
+    <b>How to use:</b>
+    <p>
+        This software checks the difference of two sequences of bites, comma separated. Please use your side menu
+        and hit the <code><span class="oi oi-layers" aria-hidden="true"></span>&nbsp;Binary diff</code> item. Upon having your binaries populated, please hit the 
+        <code>Compare</code> button. It will validate 
+        your input, sends data to Web API service for comparison and show the result in
+        <code>Output</code> placeholder.
+    </p>
+    <b>Notes:</b>
+    <p>
+        It is statefull. It supports state by making use of <code>CascadingParameters</code>. 
+        State is instantiated with the StateComponent.razor.
+    </p>
+    <p>
+        The serialization is implemented with <code>Newtonsoft.Json</code>. All C# class member-to-Json
+        mapping is done with the appropriate data annotations (see <code>DiffResult</code> class for details).
+    </p>
+    
+</div>
+

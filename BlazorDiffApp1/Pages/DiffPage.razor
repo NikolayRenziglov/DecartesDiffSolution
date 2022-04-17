@@ -1,0 +1,129 @@
+﻿@page "/diff"
+@using DecartesClassLibrary.Classes
+@using BlazorDiffApp1.Services
+@inject DiffWebApiClient webClient
+@inject IJSRuntime jsRuntime
+
+<h3>Binary difference check</h3>
+<br/>
+Please enter byte sequence as comma-separated text
+<EditForm Model="this" OnSubmit=@FormSubmitted>
+    <div class="row">
+        <div class="col-md-3">
+            <InputText class="text"
+                        @bind-Value="sessionState.BinaryString1"
+                        style="width: 200px; padding: 10px;">
+            </InputText>
+            <p class="text-danger @validationVisibility(isRight: false)">@errStr</p>
+            <p>@putResultLeft</p>
+        </div>
+        <div class="col-md-3">
+            <InputText class="text" 
+                        @bind-Value="sessionState.BinaryString2"
+                        style="width: 200px; padding: 10px;">
+            </InputText>
+            <p class="text-danger @validationVisibility(isRight: true)">@errStr</p>
+            <p>@putResultRight</p>
+        </div>
+        <div class="col-md-1">
+            <input type="submit" class="btn btn-primary" value='Compare' />
+        </div>
+        
+    </div>
+</EditForm>
+
+<br/>
+<div>Output:</div>
+
+<div class="jumbotron">
+    <pre class="margin"></pre>
+</div>
+
+
+@code {
+    [CascadingParameter]
+    private SessionState? sessionState { get; set; }
+    private bool errorStrLeft;
+    private bool errorStrRight;
+    private string? putResultLeft;
+    private string? putResultRight;
+    private const string errStr = "Incorrect data";
+
+    [Parameter]
+    public string DebugTextLeft  
+    { 
+        get { return sessionState.BinaryString1; }
+        set 
+        {
+            if (sessionState == null) sessionState = new SessionState();
+            sessionState.BinaryString1 = value; 
+        } 
+    }
+    [Parameter]
+    public string DebugTextRight  
+    { 
+        get { return sessionState.BinaryString2; }
+        set 
+        { 
+            if (sessionState == null) sessionState = new SessionState();
+            sessionState.BinaryString2 = value; 
+        } 
+    }
+
+    public string OutputContent { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+    }
+
+    private string validationVisibility(bool isRight)
+    {
+        string result = "item-hidden";
+        switch (isRight)
+        {
+            case false:
+                if (errorStrLeft) result = "item-shown"; 
+                break;
+            case true:
+                if (errorStrRight) result = "item-shown"; 
+                break;
+        }
+        return result;
+    }
+
+    private async Task FormSubmitted(EditContext editContext)
+    {
+        errorStrLeft = false;
+        errorStrRight = false;
+        putResultLeft = String.Empty;
+        putResultRight = String.Empty;
+        OutputContent = String.Empty;
+
+        CsvValidator csvValidator = new CsvValidator();
+
+        await jsRuntime.InvokeVoidAsync("Diff.clearOutput");
+
+        byte[] blob = csvValidator.CsvToBlob(sessionState.BinaryString1, out errorStrLeft);
+        if (!errorStrLeft)
+        {
+            bool ok = await webClient.SendBlob(sessionState.UserId ?? 0, blob, isRight: false);
+            putResultLeft = webClient.LastResult;
+            blob = csvValidator.CsvToBlob(sessionState.BinaryString2, out errorStrRight);
+            if (ok && !errorStrRight)
+            {
+                ok = await webClient.SendBlob(sessionState.UserId ?? 0, blob, isRight: true);
+                putResultRight += webClient.LastResult;
+                if (ok)
+                {
+                    OutputContent = await webClient.Compare(sessionState.UserId ?? 0);
+                    await jsRuntime.InvokeVoidAsync("Diff.showOutput", OutputContent);
+                }
+            }
+
+        }
+
+        StateHasChanged();
+    }
+
+}
